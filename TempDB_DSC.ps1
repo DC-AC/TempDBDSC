@@ -11,8 +11,8 @@ Set-DBATempDBConfig -SQLInstance . -DataPath D:\MSSQL -DataFileSizeMB $target
 
 # Create File
 
-if (!(test-path -Path C:\temp)) {new-item -ItemType Directory -Path C:\temp}
-if (!(test-path -Path C:\temp\tempdb.ps1)) {New-Item -ItemType File -Path  C:\temp\tempdb.ps1}
+if (!(test-path -Path C:\Scripts)) {new-item -ItemType Directory -Path C:\temp}
+if (!(test-path -Path C:\Scripts\tempdb.ps1)) {New-Item -ItemType File -Path  C:\Scripts\tempdb.ps1}
 
 #Set Content of Script
 
@@ -23,6 +23,11 @@ if (!(test-path -Path `$tempFolder)) {new-item -ItemType Directory -Path `$tempF
 start-service `$SQLServer
 start-service `$SQLAgentService"
 
+# Set Service to Manual Start
+
+set-service "SQL Server (MSSQLSERVER)" -StartupType Manual
+
+
 #Scheduled Task Creation
 
 $a = New-ScheduledTaskAction -Execute "powershell.exe" -Argument C:\Temp\TempDB.ps1
@@ -31,3 +36,5 @@ $p = New-ScheduledTaskPrincipal "NT Authority\SYSTEM"
 $s = New-ScheduledTaskSettingsSet
 $d = New-ScheduledTask -Action $a -Principal $p -Trigger $t -Settings $s
 Register-ScheduledTask TempDBJob -InputObject $d
+
+
