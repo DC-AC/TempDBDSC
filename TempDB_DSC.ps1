@@ -1,6 +1,7 @@
 Install-Module dbatools
 
 if (!(test-path -Path D:\MSSQL)) {new-item -ItemType Directory -Path D:\MSSQL}
+if (!(test-path -Path C:\Scripts)) {new-item -ItemType Directory -Path C:\Scripts}
 
 $disk=get-wmiobject -Class Win32_logicaldisk -Filter "deviceid='D:'"
 $space=$disk.size/1GB -as [INT]
@@ -30,7 +31,7 @@ set-service "SQL Server (MSSQLSERVER)" -StartupType Manual
 
 #Scheduled Task Creation
 
-$a = New-ScheduledTaskAction -Execute "powershell.exe" -Argument C:\Temp\TempDB.ps1
+$a = New-ScheduledTaskAction -Execute "powershell.exe" -Argument C:\Scripts\TempDB.ps1
 $t = New-ScheduledTaskTrigger -AtStartup
 $p = New-ScheduledTaskPrincipal "NT Authority\SYSTEM"
 $s = New-ScheduledTaskSettingsSet
