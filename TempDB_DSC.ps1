@@ -5,7 +5,7 @@ if (!(test-path -Path C:\Scripts)) {new-item -ItemType Directory -Path C:\Script
 
 $disk=get-wmiobject -Class Win32_logicaldisk -Filter "deviceid='D:'"
 $space=$disk.size/1GB -as [INT]
-$target=$space*.8/1024 
+$target=$space*.8*1024 
 
 Set-DBATempDBConfig -SQLInstance . -DataPath D:\MSSQL -DataFileSize $target
 
