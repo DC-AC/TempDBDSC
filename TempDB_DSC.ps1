@@ -1,3 +1,6 @@
+
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12  #used to force TLS12
+
 Install-Module dbatools
 
 if (!(test-path -Path D:\MSSQL)) {new-item -ItemType Directory -Path D:\MSSQL}
@@ -7,7 +10,7 @@ $disk=get-wmiobject -Class Win32_logicaldisk -Filter "deviceid='D:'"
 $space=$disk.size/1GB -as [INT]
 $target=$space*.8*1024 
 
-Set-DBATempDBConfig -SQLInstance . -DataPath D:\MSSQL -DataFileSize $target
+Set-DBATempDBConfig -SQLInstance . -DataPath D:\MSSQL -DataFileSize $target #-OutputScriptOnly #used to just output the script if necessary
 
 
 # Create File
