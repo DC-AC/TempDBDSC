@@ -10,7 +10,7 @@ $disk=get-wmiobject -Class Win32_logicaldisk -Filter "deviceid='D:'"
 $space=$disk.size/1GB -as [INT]
 $target=$space*.8*1024 
 
-Set-DBATempDBConfig -SQLInstance . -DataPath D:\MSSQL -DataFileSize $target #-OutputScriptOnly #used to just output the script if necessary
+Set-DBATempDBConfig -SQLInstance . -DataPath D:\MSSQL -DataFileSize $target #-DisableGrowth If you don't want growth #-OutputScriptOnly #used to just output the script if necessary
 
 
 # Create File
